@@ -1,15 +1,28 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom';
 import axios from "axios";  
 
 function Post() {
-    let { id } = useParams(); 
+  let { id } = useParams(); 
+  const [postObject, setPostObject] = useState({});
 
-    useEffect(() => {
-        axios.get("http://localhost:3001/posts").then((response) => {;
-      })
-      });
-  return <div>{id}</div>
+  useEffect(() => {
+    axios.get(`http://localhost:3001/posts/byId/${id}`).then((response) => {
+      setPostObject(response.data);
+    })
+  });
+  return (
+    <div className="postPage">
+      <div className="leftSide">
+        <div className="post" id="individual">
+          <div className="title">{postObject.title}</div>
+          <div className="body">{postObject.postText}</div>
+          <div className="footer">{postObject.userName}</div>
+        </div>
+      </div>
+      <div className="rightSide"></div>
+  </div>
+  );
 }
 
 export default Post

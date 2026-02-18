@@ -9,6 +9,12 @@ router.get('/', async (req, res) => {
     res.json(listOfPosts);      
 });
 
+router.get('/byId/:id', async (req, res) => {
+    const id = req.params.id
+    const post = await models.Post.findByPk(id);
+    res.json(post);
+});
+
 router.post("/", async (req, res) => {
     const postData = req.body;
     await models.Post.create(postData);
