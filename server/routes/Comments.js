@@ -3,6 +3,8 @@ const router = express.Router();
 const models = require("../models");
 const Comments = models.Comments;
 
+// video 6 Pedrotech
+
 router.get('/:postId', async (req, res) => {
     const id = req.params.postId;
     const comments = await models.Comments.findAll({

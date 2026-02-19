@@ -21,7 +21,7 @@ function CreatePost() {
         postText: "",
         userName: ""
     };
-
+// video 5 Pedrotech
     return (
         <div className="createPostPage">
             <Formik
