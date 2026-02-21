@@ -10,6 +10,12 @@ app.use(cors({
 
 const db = require('./models');
 
+// Log incoming requests (method + path + remote address)
+app.use((req, res, next) => {
+  console.log(`[REQ] ${req.method} ${req.path} - from ${req.ip}`);
+  next();
+});
+
 // Routers
 const postsRouter = require('./routes/posts');
 app.use("/posts", postsRouter);

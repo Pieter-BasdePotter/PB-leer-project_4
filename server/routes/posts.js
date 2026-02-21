@@ -11,6 +11,7 @@ router.get('/', async (req, res) => {
 
 router.get('/byId/:id', async (req, res) => {
     const id = req.params.id
+    console.log(`[POSTS] GET /byId/${id} - fetching post`);
     const post = await models.Post.findByPk(id);
     res.json(post);
 });

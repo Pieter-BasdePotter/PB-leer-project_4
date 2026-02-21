@@ -7,6 +7,7 @@ const Comments = models.Comments;
 
 router.get('/:postId', async (req, res) => {
     const id = req.params.postId;
+    console.log(`[COMMENTS] GET /${id} - fetching comments for post ${id}`);
     const comments = await models.Comments.findAll({
         where: { postId: id }
     });
