@@ -27,7 +27,20 @@ fs
     );
   })
   .forEach(file => {
-    const model = require(path.join(__dirname, file))(sequelize, Sequelize.DataTypes);
+    const filePath = path.join(__dirname, file);
+    let required;
+    try {
+      required = require(filePath);
+    } catch (err) {
+      console.error(`Failed to require ${filePath}:`, err);
+      throw err;
+    }
+    if (typeof required !== 'function') {
+      console.error(`Model file did not export a function: ${filePath}. Export type: ${typeof required}`);
+      console.error('Exported value:', required);
+      throw new TypeError(`Model file ${filePath} must export a function (sequelize, DataTypes) => model`);
+    }
+    const model = required(sequelize, Sequelize.DataTypes);
     db[model.name] = model;
   });
 
