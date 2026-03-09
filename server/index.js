@@ -28,11 +28,27 @@ app.use("/comments", commentsRouter);
 // sync() without alter: all columns are already in MySQL.
 // alter:true causes ER_DUP_FIELDNAME on every restart because Sequelize
 // bundles ADD column + ADD CONSTRAINT even when the column already exists.
-db.sequelize.sync().then(() => {    
-    app.listen(3001, () => {
-        console.log('Server is running on port 3001');
+// Instead we run targeted one-off migrations for new columns.
+const ensurePostsLikesColumn = () =>
+    db.sequelize.query(
+        `SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS
+         WHERE TABLE_SCHEMA = DATABASE() AND TABLE_NAME = 'Posts' AND COLUMN_NAME = 'likes'`
+    ).then(([rows]) => {
+        if (rows.length === 0) {
+            console.log('[MIGRATE] Adding likes column to Posts table...');
+            return db.sequelize.query(
+                'ALTER TABLE `Posts` ADD COLUMN `likes` INT NOT NULL DEFAULT 0'
+            );
+        }
     });
-}).catch((err) => {
-    console.error('Failed to sync database:', err);
-    process.exit(1);
-});
+
+ensurePostsLikesColumn()
+    .then(() => db.sequelize.sync())
+    .then(() => {
+        app.listen(3001, () => {
+            console.log('Server is running on port 3001');
+        });
+    }).catch((err) => {
+        console.error('Failed to start server:', err);
+        process.exit(1);
+    });

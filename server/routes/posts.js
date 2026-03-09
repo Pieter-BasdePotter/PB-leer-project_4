@@ -22,4 +22,18 @@ router.post("/", async (req, res) => {
     res.json(postData);
 });
 
+router.put('/:id/like', async (req, res) => {
+    const id = req.params.id;
+    try {
+        const post = await models.Post.findByPk(id);
+        if (!post) return res.status(404).json({ error: 'Post not found' });
+        await post.increment('likes');
+        await post.reload();
+        res.json({ likes: post.likes });
+    } catch (err) {
+        console.error('[POSTS] PUT /:id/like error:', err);
+        res.status(500).json({ error: 'Failed to like post' });
+    }
+});
+
 module.exports = router;

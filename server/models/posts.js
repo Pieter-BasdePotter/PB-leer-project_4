@@ -12,7 +12,11 @@ module.exports = (sequelize, DataTypes) => {
         userName: {
             type: DataTypes.STRING,
             allowNull: false,
-        }, 
+        },
+        likes: {
+            type: DataTypes.INTEGER,
+            defaultValue: 0,
+        },
     })
 
     Post.associate = (models) => {

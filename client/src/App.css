@@ -243,6 +243,13 @@ button {
   width: 600px;
 }
 
+.postLikeFooter {
+  display: flex;
+  align-items: center;
+  padding: 10px 15px;
+  border-top: 1px solid lightgray;
+}
+
 #individual .title,
 #individual .footer {
   font-size: 30px;
