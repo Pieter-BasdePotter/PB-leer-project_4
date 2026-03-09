@@ -14,18 +14,32 @@ function Post() {
     });
 
     axios.get(`http://localhost:3001/comments/${id}`).then((response) => {
-      setComments(response.data);
+      setComments(Array.isArray(response.data) ? response.data : []);
+    }).catch((err) => {
+      console.error('Failed fetching comments:', err);
     });
   }, [id]);
 
   const addComment = () => {
-    // Implement the logic to add a comment here
     axios.post("http://localhost:3001/comments", { commentBody: newComment, postId: id }).then((response) => {
       console.log("Comment added:", response.data);
       setComments((prev) => [...prev, response.data]);
       setNewComment("");
+    }).catch((err) => {
+      console.error('Failed adding comment:', err);
     });
   };
+
+  const likeComment = (commentId) => {
+    axios.put(`http://localhost:3001/comments/${commentId}/like`).then((response) => {
+      setComments((prev) =>
+        prev.map((c) =>
+          c.id === commentId ? { ...c, likes: Math.max(c.likes ?? 0, response.data.likes) } : c
+        )
+      );
+    });
+  };
+
   return (
     <div className="postPage">
       <div className="leftSide">
@@ -41,16 +55,22 @@ function Post() {
           <button onClick={addComment}> Add Comment</button>
         </div>
         <div className="listOfComments">
-          {comments.map((comment, key) => {
-            return ( 
-              <div key={key} className="comment">
-                {comment.commentBody}
+          {comments.map((comment) => (
+            <div key={comment.id} className="comment">
+              <div className="commentBody">{comment.commentBody}</div>
+              <div className="commentFooter">
+                <button className="likeBtn" onClick={() => likeComment(comment.id)}>
+                  <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-label="Like">
+                    <path d="M1 21h4V9H1v12zm22-11c0-1.1-.9-2-2-2h-6.31l.95-4.57.03-.32c0-.41-.17-.79-.44-1.06L14.17 1 7.59 7.59C7.22 7.95 7 8.45 7 9v10c0 1.1.9 2 2 2h9c.83 0 1.54-.5 1.84-1.22l3.02-7.05c.09-.23.14-.47.14-.73v-2z"/>
+                  </svg>
+                  <span>{comment.likes ?? 0}</span>
+                </button>
+              </div>
             </div>
-          );
-        })}  
+          ))}
+        </div>
       </div>
     </div>
-  </div>
   );
 }
 

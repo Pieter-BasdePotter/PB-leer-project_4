@@ -15,8 +15,18 @@ router.get('/:postId', async (req, res) => {
 });
 
 router.post('/', async (req, res) => {
-    const comment = req.body;
-    const created = await Comments.create(comment);
+    const { commentBody, postId } = req.body;
+    const created = await Comments.create({ commentBody, postId });
     res.json(created);
 });
+
+router.put('/:id/like', async (req, res) => {
+    const id = req.params.id;
+    const comment = await Comments.findByPk(id);
+    if (!comment) return res.status(404).json({ error: 'Comment not found' });
+    await comment.increment('likes');
+    await comment.reload();
+    res.json({ likes: comment.likes });
+});
+
 module.exports = router;

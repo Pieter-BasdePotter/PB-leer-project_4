@@ -4,8 +4,12 @@ module.exports = (sequelize, DataTypes) => {
         commentBody: {
             type: DataTypes.STRING,
             allowNull: false,
-        }, 
+        },
+        likes: {
+            type: DataTypes.INTEGER,
+            defaultValue: 0,
+        },
     })
-    
+
     return Comments;
 }
