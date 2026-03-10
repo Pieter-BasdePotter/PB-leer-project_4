@@ -17,9 +17,10 @@ router.get('/byId/:id', async (req, res) => {
 });
 
 router.post("/", async (req, res) => {
-    const postData = req.body;
-    await models.Post.create(postData);
-    res.json(postData);
+    const { title, postText } = req.body;
+    const userName = req.user.username;
+    await models.Post.create({ title, postText, userName });
+    res.json({ title, postText, userName });
 });
 
 router.put('/:id/like', async (req, res) => {

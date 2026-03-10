@@ -1,6 +1,6 @@
 import React from 'react'
 import {Formik, Form, Field, ErrorMessage} from "formik";
-import axios from "axios";  
+import axios from "../api/axios";  
 import { useNavigate } from 'react-router-dom';
 
 
@@ -9,7 +9,7 @@ function CreatePost() {
 
     const handleCreate = async (data) => {
         try {
-            await axios.post("http://localhost:3001/posts", data);
+            await axios.post("/posts", data);
             navigate('/');
         } catch (error) {
             console.error("Error creating post:", error);

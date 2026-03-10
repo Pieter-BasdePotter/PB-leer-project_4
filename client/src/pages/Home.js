@@ -1,5 +1,5 @@
 import React from 'react'
-import axios from "axios";  
+import axios from "../api/axios";  
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
@@ -8,7 +8,7 @@ function Home() {
     const navigate = useNavigate();
 
   useEffect(() => {
-    axios.get("http://localhost:3001/posts")
+    axios.get("/posts")
       .then((response) => {
         setListOfPosts(response.data);
       })

@@ -105,7 +105,71 @@ body {
   color: red;
 }
 
-/* LIKE BUTTON */
+/* AUTH PAGES */
+
+.authFormHeader {
+  background-color: rgb(18, 150, 0);
+  color: white;
+  text-align: center;
+  padding: 14px 0;
+  margin: -20px -20px 20px -20px;
+  border-radius: 2px 2px 0 0;
+  font-size: 20px;
+  font-weight: bold;
+  letter-spacing: 0.5px;
+}
+
+.serverError {
+  color: red;
+  font-size: 14px;
+  margin-bottom: 8px;
+  display: block;
+}
+
+.authSwitch {
+  text-align: center;
+  margin-top: 16px;
+  font-size: 14px;
+  color: #555;
+}
+
+.authSwitch a {
+  color: rgb(18, 150, 0);
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.authSwitch a:hover {
+  text-decoration: underline;
+}
+
+/* NAVBAR — auth additions */
+
+.navUser {
+  margin-left: auto;
+  color: white;
+  font-size: 14px;
+  padding-right: 10px;
+}
+
+.navLogout {
+  width: auto !important;
+  height: auto !important;
+  background: rgba(255, 255, 255, 0.15);
+  border: 1.5px solid white !important;
+  border-radius: 5px;
+  color: white;
+  padding: 6px 14px;
+  margin-right: 16px;
+  cursor: pointer;
+  font-size: 14px;
+  font-family: Arial, Helvetica, sans-serif;
+  transition: background-color 0.15s ease;
+}
+
+.navLogout:hover {
+  background-color: rgba(255, 255, 255, 0.28) !important;
+}
 
 .comment {
   display: flex;

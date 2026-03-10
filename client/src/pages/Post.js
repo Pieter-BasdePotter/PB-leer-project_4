@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom';
-import axios from "axios";  
+import axios from "../api/axios";
 
 function Post() {
   let { id } = useParams(); 
@@ -9,11 +9,11 @@ function Post() {
   const [newComment, setNewComment] = useState("");
 
   useEffect(() => {
-    axios.get(`http://localhost:3001/posts/byId/${id}`).then((response) => {
+    axios.get(`/posts/byId/${id}`).then((response) => {
       setPostObject(response.data);
     });
 
-    axios.get(`http://localhost:3001/comments/${id}`).then((response) => {
+    axios.get(`/comments/${id}`).then((response) => {
       setComments(Array.isArray(response.data) ? response.data : []);
     }).catch((err) => {
       console.error('Failed fetching comments:', err);
@@ -21,7 +21,7 @@ function Post() {
   }, [id]);
 
   const addComment = () => {
-    axios.post("http://localhost:3001/comments", { commentBody: newComment, postId: id }).then((response) => {
+    axios.post("/comments", { commentBody: newComment, postId: id }).then((response) => {
       console.log("Comment added:", response.data);
       setComments((prev) => [...prev, response.data]);
       setNewComment("");
@@ -31,7 +31,7 @@ function Post() {
   };
 
   const likePost = () => {
-    axios.put(`http://localhost:3001/posts/${id}/like`).then((response) => {
+    axios.put(`/posts/${id}/like`).then((response) => {
       setPostObject((prev) => ({ ...prev, likes: Math.max(prev.likes ?? 0, response.data.likes) }));
     }).catch((err) => {
       console.error('Failed liking post:', err);
@@ -39,7 +39,7 @@ function Post() {
   };
 
   const likeComment = (commentId) => {
-    axios.put(`http://localhost:3001/comments/${commentId}/like`).then((response) => {
+    axios.put(`/comments/${commentId}/like`).then((response) => {
       setComments((prev) =>
         prev.map((c) =>
           c.id === commentId ? { ...c, likes: Math.max(c.likes ?? 0, response.data.likes) } : c
