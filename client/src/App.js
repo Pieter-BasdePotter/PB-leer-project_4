@@ -8,12 +8,13 @@ import Register from './pages/Register';
 import { AuthProvider, useAuth } from './context/AuthContext';
 import ProtectedRoute from './components/ProtectedRoute';
 
-
 function NavBar() {
   const { token, username, logout } = useAuth();
   const navigate = useNavigate();
 
   if (!token) return null;
+
+  const initial = username ? username[0].toUpperCase() : '?';
 
   const handleLogout = () => {
     logout();
@@ -21,12 +22,18 @@ function NavBar() {
   };
 
   return (
-    <div className="navbar">
-      <Link to="/createpost">Create A Post</Link>
-      <Link to="/">Home</Link>
-      <span className="navUser">Hi, {username}</span>
-      <button className="navLogout" onClick={handleLogout}>Log Out</button>
-    </div>
+    <nav className="fbNav">
+      <Link to="/" className="fbNavLogo">GreenBook</Link>
+      <div className="fbNavCenter">
+        <Link to="/" className="fbNavLink">Home</Link>
+        <Link to="/createpost" className="fbNavLink">New Post</Link>
+      </div>
+      <div className="fbNavRight">
+        <div className="fbNavAvatar">{initial}</div>
+        <span className="fbNavUsername">{username}</span>
+        <button className="fbNavLogout" onClick={handleLogout}>Log Out</button>
+      </div>
+    </nav>
   );
 }
 

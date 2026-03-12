@@ -34,48 +34,51 @@ function Login() {
     };
 
     return (
-        <div className="createPostPage">
-            <Formik
-                initialValues={{ email: '', password: '' }}
-                validate={validate}
-                onSubmit={handleLogin}
-            >
-                {({ isSubmitting }) => (
-                    <Form className="formContainer">
-                        <div className="authFormHeader">Log In</div>
-                        {serverError && <span className="serverError">{serverError}</span>}
+        <div className="authPage">
+            <div className="authBrand">
+                <div className="authBrandLogo">GreenBook</div>
+                <div className="authBrandTagline">
+                    Connect with friends and share what matters most to you.
+                </div>
+                <div className="authBrandDots">
+                    <div className="authBrandDot active" />
+                    <div className="authBrandDot" />
+                    <div className="authBrandDot" />
+                </div>
+            </div>
+            <div className="authPanel">
+                <div className="authFormCard">
+                    <div className="authFormTitle">Log In</div>
+                    <div className="authFormSubtitle">Welcome back! Sign in to continue.</div>
+                    {serverError && <div className="authServerError">{serverError}</div>}
+                    <Formik
+                        initialValues={{ email: '', password: '' }}
+                        validate={validate}
+                        onSubmit={handleLogin}
+                    >
+                        {({ isSubmitting }) => (
+                            <Form>
+                                <label className="authLabel" htmlFor="login-email">Email</label>
+                                <ErrorMessage name="email" component="span" className="authError" />
+                                <Field id="login-email" type="email" className="authInput" name="email" placeholder="your@email.com" autoComplete="email" />
 
-                        <label>Email:</label>
-                        <ErrorMessage name="email" component="span" />
-                        <Field
-                            type="email"
-                            id="inputCreatePost"
-                            name="email"
-                            placeholder="your@email.com"
-                            autoComplete="email"
-                        />
+                                <label className="authLabel" htmlFor="login-password">Password</label>
+                                <ErrorMessage name="password" component="span" className="authError" />
+                                <Field id="login-password" type="password" className="authInput" name="password" placeholder="Password" autoComplete="current-password" />
 
-                        <label>Password:</label>
-                        <ErrorMessage name="password" component="span" />
-                        <Field
-                            type="password"
-                            id="inputCreatePost"
-                            name="password"
-                            placeholder="Password"
-                            autoComplete="current-password"
-                        />
-
-                        <button type="submit" disabled={isSubmitting}>
-                            {isSubmitting ? 'Logging in…' : 'Log In'}
-                        </button>
-
-                        <p className="authSwitch">
-                            Don't have an account?{' '}
-                            <Link to="/register">Register here</Link>
-                        </p>
-                    </Form>
-                )}
-            </Formik>
+                                <button type="submit" className="authSubmit" disabled={isSubmitting}>
+                                    {isSubmitting ? 'Logging in…' : 'Log In'}
+                                </button>
+                                <div className="authDivider" />
+                                <p className="authSwitch">
+                                    Don't have an account?{' '}
+                                    <Link to="/register">Register here</Link>
+                                </p>
+                            </Form>
+                        )}
+                    </Formik>
+                </div>
+            </div>
         </div>
     );
 }

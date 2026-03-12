@@ -1,324 +1,179 @@
-.App {
-  width: 100vw;
-  height: auto;
-  display: flex;
-  align-items: center;
-  padding-top: 40px;
-  flex-direction: column;
+/* ================================================================
+   DESIGN TOKENS
+   ================================================================ */
+:root {
+  --primary:        #129600;
+  --primary-hover:  #0e7a00;
+  --primary-light:  #e8f5e9;
+  --bg-body:        #f0f2f5;
+  --bg-card:        #ffffff;
+  --text-primary:   #1c1e21;
+  --text-secondary: #65676b;
+  --divider:        #e4e6eb;
+  --action-hover:   rgba(0, 0, 0, 0.05);
+  --shadow-card:    0 1px 2px rgba(0, 0, 0, 0.10), 0 0 0 1px rgba(0, 0, 0, 0.06);
+  --radius-card:    8px;
+  --font:           'Nunito', 'Segoe UI', Helvetica, sans-serif;
+  --nav-height:     56px;
 }
+
+/* ================================================================
+   RESET & BASE
+   ================================================================ */
+*, *::before, *::after { box-sizing: border-box; }
 
 body {
   margin: 0;
   padding: 0;
+  background: var(--bg-body);
+  font-family: var(--font);
+  color: var(--text-primary);
+  -webkit-font-smoothing: antialiased;
 }
 
-.post {
-  width: 400px;
-  height: 300px;
-  border-radius: 10px;
-  display: flex;
-  flex-direction: column;
-  margin-top: 50px;
-  border: 1px solid lightgray;
-  font-family: Arial, Helvetica, sans-serif;
+.App { width: 100%; min-height: 100vh; }
 
-  box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+/* ================================================================
+   NAVBAR — sticky white bar
+   ================================================================ */
+.fbNav { position: sticky; top: 0; z-index: 100; width: 100%; height: var(--nav-height); background: var(--bg-card); box-shadow: 0 1px 0 var(--divider); display: flex; align-items: center; justify-content: space-between; padding: 0 16px; gap: 12px; }
+.fbNavLogo { font-size: 26px; font-weight: 800; color: var(--primary); letter-spacing: -1px; text-decoration: none; flex-shrink: 0; }
+.fbNavCenter { display: flex; align-items: center; gap: 4px; }
+.fbNavLink { display: flex; align-items: center; justify-content: center; padding: 0 20px; height: 44px; border-radius: 8px; color: var(--text-secondary); text-decoration: none; font-size: 14px; font-weight: 700; transition: background 0.15s, color 0.15s; }
+.fbNavLink:hover { background: var(--primary-light); color: var(--primary); }
+.fbNavRight { display: flex; align-items: center; gap: 10px; flex-shrink: 0; }
+.fbNavAvatar { width: 36px; height: 36px; border-radius: 50%; background: var(--primary); color: white; font-size: 15px; font-weight: 800; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.fbNavUsername { font-size: 14px; font-weight: 700; color: var(--text-primary); max-width: 120px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.fbNavLogout { background: var(--action-hover); border: none; border-radius: 6px; color: var(--text-secondary); font-family: var(--font); font-size: 13px; font-weight: 700; padding: 8px 14px; cursor: pointer; transition: background 0.15s, color 0.15s; width: auto; height: auto; }
+.fbNavLogout:hover { background: #fdecea; color: #c0392b; }
+
+/* ================================================================
+   AVATAR
+   ================================================================ */
+.postAvatar { width: 42px; height: 42px; border-radius: 50%; background: var(--primary); color: white; font-size: 18px; font-weight: 800; display: flex; align-items: center; justify-content: center; flex-shrink: 0; user-select: none; }
+
+/* ================================================================
+   FEED
+   ================================================================ */
+.feedPage { max-width: 680px; margin: 0 auto; padding: 24px 16px; display: flex; flex-direction: column; gap: 16px; }
+
+/* ================================================================
+   POST CARD
+   ================================================================ */
+.postCard { background: var(--bg-card); border-radius: var(--radius-card); box-shadow: var(--shadow-card); overflow: hidden; cursor: pointer; transition: box-shadow 0.15s; }
+.postCard:hover { box-shadow: 0 2px 12px rgba(0,0,0,0.15); }
+.postCardHeader { display: flex; align-items: center; gap: 10px; padding: 14px 16px 10px; }
+.postAvatarMeta { display: flex; flex-direction: column; gap: 2px; }
+.postAuthorName { font-size: 14px; font-weight: 700; color: var(--text-primary); }
+.postTimestamp { font-size: 12px; color: var(--text-secondary); }
+.postCardTitle { font-size: 17px; font-weight: 700; color: var(--text-primary); padding: 0 16px 8px; line-height: 1.3; }
+.postCardBody { font-size: 15px; color: var(--text-primary); padding: 0 16px 14px; line-height: 1.55; }
+.postCardStats { display: flex; align-items: center; gap: 8px; padding: 8px 16px; border-top: 1px solid var(--divider); font-size: 13px; color: var(--text-secondary); }
+.statBubble { display: flex; align-items: center; gap: 4px; }
+.statBubble svg { width: 14px; height: 14px; fill: var(--primary); }
+.postCardActions { display: flex; border-top: 1px solid var(--divider); }
+.postActionBtn { flex: 1; display: flex; align-items: center; justify-content: center; gap: 6px; padding: 10px; background: none; border: none; cursor: pointer; font-family: var(--font); font-size: 14px; font-weight: 700; color: var(--text-secondary); transition: background 0.15s, color 0.15s; border-radius: 0; width: auto; height: auto; }
+.postActionBtn:hover { background: var(--primary-light); color: var(--primary); }
+.postActionBtn svg { width: 18px; height: 18px; fill: currentColor; }
+
+/* ================================================================
+   POST DETAIL
+   ================================================================ */
+.postDetailPage { max-width: 680px; margin: 0 auto; padding: 24px 16px; display: flex; flex-direction: column; gap: 12px; }
+.postDetailCard { background: var(--bg-card); border-radius: var(--radius-card); box-shadow: var(--shadow-card); overflow: hidden; }
+.postDetailCard .postCardTitle { font-size: 22px; }
+.postDetailCard .postCardBody  { font-size: 16px; padding-bottom: 16px; }
+.postDetailLikeRow { display: flex; align-items: center; padding: 8px 16px; border-top: 1px solid var(--divider); }
+
+/* ================================================================
+   LIKE BUTTON
+   ================================================================ */
+.likeBtn { display: inline-flex; align-items: center; gap: 5px; background: none; border: none; cursor: pointer; font-family: var(--font); font-size: 13px; font-weight: 700; color: var(--text-secondary); padding: 6px 10px; border-radius: 4px; transition: background 0.15s, color 0.15s, transform 0.1s; width: auto; height: auto; }
+.likeBtn svg { width: 15px; height: 15px; fill: currentColor; flex-shrink: 0; }
+.likeBtn:hover { background: var(--primary-light); color: var(--primary); }
+.likeBtn:active { transform: scale(0.96); }
+
+/* ================================================================
+   COMMENTS CARD
+   ================================================================ */
+.commentsCard { background: var(--bg-card); border-radius: var(--radius-card); box-shadow: var(--shadow-card); padding: 16px; }
+.commentsCardTitle { font-size: 16px; font-weight: 800; margin-bottom: 16px; color: var(--text-primary); }
+.commentInputRow { display: flex; align-items: center; gap: 10px; margin-bottom: 16px; }
+.commentInputRow .postAvatar { width: 34px; height: 34px; font-size: 14px; }
+.commentInputBox { flex: 1; background: var(--bg-body); border: 1.5px solid var(--divider); border-radius: 20px; padding: 8px 16px; font-family: var(--font); font-size: 14px; outline: none; transition: border-color 0.15s, box-shadow 0.15s; width: auto; height: auto; }
+.commentInputBox:focus { border-color: var(--primary); box-shadow: 0 0 0 2px rgba(18,150,0,0.1); }
+.commentSubmitBtn { background: var(--primary); border: none; border-radius: 20px; color: white; font-family: var(--font); font-size: 13px; font-weight: 700; padding: 8px 18px; cursor: pointer; transition: background 0.15s; white-space: nowrap; width: auto; height: auto; flex-shrink: 0; }
+.commentSubmitBtn:hover { background: var(--primary-hover); }
+.commentItem { display: flex; gap: 8px; margin-bottom: 12px; }
+.commentItem .postAvatar { width: 34px; height: 34px; font-size: 14px; margin-top: 2px; }
+.commentBubble { flex: 1; background: var(--bg-body); border-radius: 12px; padding: 8px 12px; }
+.commentAuthorName { font-size: 12px; font-weight: 700; color: var(--text-secondary); margin-bottom: 2px; }
+.commentBubbleBody { font-size: 14px; color: var(--text-primary); line-height: 1.45; }
+.commentLikeRow { display: flex; align-items: center; margin-top: 4px; }
+
+/* ================================================================
+   CREATE POST
+   ================================================================ */
+.createPostPage { max-width: 680px; margin: 0 auto; padding: 24px 16px; }
+.createPostCard { background: var(--bg-card); border-radius: var(--radius-card); box-shadow: var(--shadow-card); overflow: hidden; }
+.createPostCardHeader { background: var(--primary); color: white; padding: 16px 20px; font-size: 18px; font-weight: 800; letter-spacing: -0.2px; }
+.createPostWho { display: flex; align-items: center; gap: 10px; padding: 14px 20px 6px; }
+.createPostWho .postAvatar { width: 36px; height: 36px; font-size: 15px; }
+.createPostWhoLabel { font-size: 13px; color: var(--text-secondary); }
+.createPostWhoName  { font-size: 13px; font-weight: 700; color: var(--primary); }
+.createPostBody { padding: 4px 20px 20px; display: flex; flex-direction: column; }
+.createPostLabel { font-size: 11px; font-weight: 700; letter-spacing: 0.8px; text-transform: uppercase; color: var(--text-secondary); margin: 16px 0 4px; }
+.createPostError { font-size: 12px; color: #c0392b; margin: 0 0 4px; }
+.createPostServerError { font-size: 13px; color: #c0392b; background: #fdecea; border-radius: 6px; padding: 10px 12px; margin-top: 10px; }
+.createPostInput { width: 100%; height: 44px; border: 1.5px solid var(--divider); border-radius: 8px; padding: 0 14px; font-family: var(--font); font-size: 15px; color: var(--text-primary); background: var(--bg-body); outline: none; transition: border-color 0.15s, box-shadow 0.15s; box-sizing: border-box; }
+.createPostInput:focus, .createPostTextarea:focus { border-color: var(--primary); box-shadow: 0 0 0 3px rgba(18,150,0,0.1); background: white; }
+.createPostTextarea { width: 100%; border: 1.5px solid var(--divider); border-radius: 8px; padding: 12px 14px; font-family: var(--font); font-size: 15px; color: var(--text-primary); background: var(--bg-body); outline: none; resize: vertical; line-height: 1.6; min-height: 110px; transition: border-color 0.15s, box-shadow 0.15s; box-sizing: border-box; }
+.createPostSubmit { margin-top: 18px; width: 100%; height: 46px; border: none; border-radius: 8px; background: var(--primary); color: white; font-family: var(--font); font-size: 15px; font-weight: 700; cursor: pointer; transition: background 0.15s, transform 0.1s; }
+.createPostSubmit:hover { background: var(--primary-hover); transform: translateY(-1px); }
+.createPostSubmit:active { transform: translateY(0); }
+.createPostSubmit:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
+
+/* ================================================================
+   AUTH PAGES — two-panel
+   ================================================================ */
+.authPage { display: flex; min-height: 100vh; }
+.authBrand { flex: 1; background: var(--primary); display: flex; flex-direction: column; align-items: flex-start; justify-content: center; padding: 60px 56px; min-width: 0; }
+.authBrandLogo { font-size: 52px; font-weight: 800; color: white; letter-spacing: -2px; line-height: 1; margin-bottom: 18px; }
+.authBrandTagline { font-size: 22px; font-weight: 400; color: rgba(255,255,255,0.88); line-height: 1.5; max-width: 380px; }
+.authBrandDots { display: flex; gap: 10px; margin-top: 52px; }
+.authBrandDot { width: 10px; height: 10px; border-radius: 50%; background: rgba(255,255,255,0.35); }
+.authBrandDot.active { background: white; }
+.authPanel { width: 440px; flex-shrink: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; background: var(--bg-body); padding: 40px 32px; }
+.authFormCard { width: 100%; max-width: 380px; background: var(--bg-card); border-radius: var(--radius-card); box-shadow: var(--shadow-card); padding: 32px; }
+.authFormTitle { font-size: 24px; font-weight: 800; color: var(--text-primary); margin-bottom: 4px; }
+.authFormSubtitle { font-size: 14px; color: var(--text-secondary); margin-bottom: 24px; }
+.authLabel { display: block; font-size: 11px; font-weight: 700; letter-spacing: 0.7px; text-transform: uppercase; color: var(--text-secondary); margin: 16px 0 4px; }
+.authError { font-size: 12px; color: #c0392b; margin: 2px 0 4px; display: block; }
+.authServerError { font-size: 13px; color: #c0392b; background: #fdecea; border-radius: 6px; padding: 10px 12px; margin-bottom: 16px; }
+.authInput { width: 100%; height: 44px; border: 1.5px solid var(--divider); border-radius: 8px; padding: 0 14px; font-family: var(--font); font-size: 15px; color: var(--text-primary); background: var(--bg-body); outline: none; transition: border-color 0.15s, box-shadow 0.15s; box-sizing: border-box; }
+.authInput:focus { border-color: var(--primary); box-shadow: 0 0 0 3px rgba(18,150,0,0.1); background: white; }
+.authSubmit { width: 100%; height: 46px; border: none; border-radius: 8px; background: var(--primary); color: white; font-family: var(--font); font-size: 16px; font-weight: 700; cursor: pointer; margin-top: 24px; transition: background 0.15s, transform 0.1s; }
+.authSubmit:hover { background: var(--primary-hover); transform: translateY(-1px); }
+.authSubmit:active { transform: translateY(0); }
+.authSubmit:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
+.authDivider { height: 1px; background: var(--divider); margin: 20px 0; }
+.authSwitch { text-align: center; font-size: 14px; color: var(--text-secondary); margin: 0; }
+.authSwitch a { color: var(--primary); text-decoration: none; font-weight: 700; }
+.authSwitch a:hover { text-decoration: underline; }
+
+/* ================================================================
+   RESPONSIVE
+   ================================================================ */
+@media (max-width: 680px) {
+  .authPage { flex-direction: column; }
+  .authBrand { padding: 40px 24px; min-height: unset; }
+  .authBrandLogo { font-size: 36px; }
+  .authBrandTagline { font-size: 17px; }
+  .authPanel { width: 100%; padding: 24px 16px; }
+  .feedPage { padding: 12px 0; gap: 8px; }
+  .postDetailPage { padding: 12px 0; }
+  .createPostPage { padding: 12px 0; }
+  .fbNavUsername { display: none; }
 }
 
-.post:hover {
-  box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
-  cursor: pointer;
-}
-.post .title {
-  flex: 20%;
-  border-bottom: 1px solid lightgray;
-  background-color: rgb(18, 150, 0);
-  display: grid;
-  place-content: center;
-  color: white;
-}
 
-.post .body {
-  flex: 60%;
-  display: grid;
-  place-content: center;
-}
-
-.post .footer {
-  flex: 20%;
-  border-top: 1px solid lightgray;
-  display: flex;
-  align-items: center;
-  padding-left: 15px;
-  background-color: rgb(18, 150, 0);
-  color: white;
-  border-bottom-left-radius: 10px;
-  border-bottom-right-radius: 10px;
-}
-
-/* CREATE POST PAGE CSS */
-
-.createPostPage {
-  font-family: Arial, Helvetica, sans-serif;
-  width: 100vw;
-  height: 70vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-.formContainer {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  width: 500px;
-  height: auto;
-  padding: 20px;
-  border: 5px solid rgb(18, 150, 0);
-  border-radius: 5px;
-}
-
-.formContainer #inputCreatePost {
-  height: 40px;
-  margin-top: 10px;
-  margin-bottom: 10px;
-  border: 2px solid grey;
-  border-radius: 5px;
-  padding-left: 10px;
-  font-size: 20px;
-}
-
-.formContainer button {
-  margin-top: 15px;
-  height: 40px;
-  border: none;
-  background-color: rgb(0, 0, 0);
-  border-radius: 5px;
-  color: white;
-}
-
-.formContainer button:hover {
-  cursor: pointer;
-  background-color: rgb(18, 150, 0);
-}
-
-.formContainer span {
-  color: red;
-}
-
-/* AUTH PAGES */
-
-.authFormHeader {
-  background-color: rgb(18, 150, 0);
-  color: white;
-  text-align: center;
-  padding: 14px 0;
-  margin: -20px -20px 20px -20px;
-  border-radius: 2px 2px 0 0;
-  font-size: 20px;
-  font-weight: bold;
-  letter-spacing: 0.5px;
-}
-
-.serverError {
-  color: red;
-  font-size: 14px;
-  margin-bottom: 8px;
-  display: block;
-}
-
-.authSwitch {
-  text-align: center;
-  margin-top: 16px;
-  font-size: 14px;
-  color: #555;
-}
-
-.authSwitch a {
-  color: rgb(18, 150, 0);
-  text-decoration: none;
-  font-weight: bold;
-}
-
-.authSwitch a:hover {
-  text-decoration: underline;
-}
-
-/* NAVBAR — auth additions */
-
-.navUser {
-  margin-left: auto;
-  color: white;
-  font-size: 14px;
-  padding-right: 10px;
-}
-
-.navLogout {
-  width: auto !important;
-  height: auto !important;
-  background: rgba(255, 255, 255, 0.15);
-  border: 1.5px solid white !important;
-  border-radius: 5px;
-  color: white;
-  padding: 6px 14px;
-  margin-right: 16px;
-  cursor: pointer;
-  font-size: 14px;
-  font-family: Arial, Helvetica, sans-serif;
-  transition: background-color 0.15s ease;
-}
-
-.navLogout:hover {
-  background-color: rgba(255, 255, 255, 0.28) !important;
-}
-
-.comment {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-}
-
-.commentFooter {
-  display: flex;
-  align-items: center;
-}
-
-.likeBtn {
-  width: auto !important;
-  height: auto !important;
-  background: none;
-  border: 1.5px solid rgb(18, 150, 0) !important;
-  border-radius: 20px;
-  padding: 5px 12px;
-  cursor: pointer;
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  color: rgb(18, 150, 0);
-  font-family: Arial, Helvetica, sans-serif;
-  font-size: 13px;
-  font-weight: 600;
-  transition: background-color 0.15s ease, color 0.15s ease, transform 0.1s ease;
-}
-
-.likeBtn svg {
-  width: 15px;
-  height: 15px;
-  fill: currentColor;
-  flex-shrink: 0;
-}
-
-.likeBtn:hover {
-  background-color: rgb(18, 150, 0);
-  color: white;
-  transform: scale(1.05);
-}
-
-.likeBtn:active {
-  transform: scale(0.97);
-}
-
-/* NAVBAR */
-
-.navbar {
-  width: 100%;
-  height: 70px;
-  background-color: rgb(18, 150, 0);
-  display: flex;
-  align-items: center;
-  font-family: Arial, Helvetica, sans-serif;
-  align-self: stretch;
-}
-
-.navbar a {
-  margin-left: 20px;
-  text-decoration: none;
-  color: white;
-}
-
-/* INDIVIDUAL POST */
-/* INDIVIDUAL POST */
-.postPage {
-  display: flex;
-  flex-direction: row;
-  width: 100%;
-  height: 100%;
-}
-
-.leftSide {
-  flex: 50%;
-  height: calc(100vh - 70px);
-  display: grid;
-  place-items: center;
-}
-
-.rightSide {
-  flex: 50%;
-  height: calc(100vh - 70px);
-  display: grid;
-  place-items: center;
-  display: flex;
-  flex-direction: column;
-}
-
-.rightSide .addCommentContainer {
-  flex: 20%;
-  width: 100%;
-  display: grid;
-  place-items: center;
-  margin-top: 25px;
-}
-
-.addCommentContainer input,
-button {
-  width: 200px;
-  height: 50px;
-  border-radius: 8px;
-  border: none;
-}
-
-.addCommentContainer button {
-  background-color: rgb(18, 150, 0);
-  color: white;
-}
-
-.addCommentContainer input {
-  border: 2px solid rgb(18, 150, 0);
-}
-
-.rightSide .listOfComments {
-  flex: 80%;
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-.listOfComments .comment {
-  width: 70%;
-  height: auto;
-  padding: 30px;
-  border: 1px solid rgb(14, 121, 0);
-  border-radius: 5px;
-  margin-top: 20px;
-}
-
-#individual {
-  height: 500px;
-  width: 600px;
-}
-
-.postLikeFooter {
-  display: flex;
-  align-items: center;
-  padding: 10px 15px;
-  border-top: 1px solid lightgray;
-}
-
-#individual .title,
-#individual .footer {
-  font-size: 30px;
-}
-
-#individual .body {
-  font-size: 25px;
-}

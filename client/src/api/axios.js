@@ -12,11 +12,12 @@ api.interceptors.request.use((config) => {
     return config;
 });
 
-// On 401 (expired / invalid token), clear auth state and redirect to login.
+// On 401, redirect to login — but skip auth endpoints so Login.js can show error messages.
 api.interceptors.response.use(
     (response) => response,
     (error) => {
-        if (error.response?.status === 401) {
+        const url = error.config?.url ?? '';
+        if (error.response?.status === 401 && !url.startsWith('/auth/')) {
             localStorage.removeItem('token');
             localStorage.removeItem('username');
             window.location.href = '/login';

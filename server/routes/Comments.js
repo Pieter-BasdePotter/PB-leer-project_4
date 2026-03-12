@@ -16,7 +16,11 @@ router.get('/:postId', async (req, res) => {
 
 router.post('/', async (req, res) => {
     const { commentBody, postId } = req.body;
-    const created = await Comments.create({ commentBody, postId });
+    const userName = req.user.username;
+    if (!userName) {
+        return res.status(401).json({ error: 'Authenticated username required' });
+    }
+    const created = await Comments.create({ commentBody, postId, userName });
     res.json(created);
 });
 

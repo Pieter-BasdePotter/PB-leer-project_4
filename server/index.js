@@ -72,9 +72,23 @@ const ensureUsersEmailColumn = () =>
         }
     });
 
-ensurePostsLikesColumn()
+const ensureCommentsUserNameColumn = () =>
+    db.sequelize.query(
+        `SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS
+         WHERE TABLE_SCHEMA = DATABASE() AND TABLE_NAME = 'Comments' AND COLUMN_NAME = 'userName'`
+    ).then(([rows]) => {
+        if (rows.length === 0) {
+            console.log('[MIGRATE] Adding userName column to Comments table...');
+            return db.sequelize.query(
+                'ALTER TABLE `Comments` ADD COLUMN `userName` VARCHAR(255) NULL'
+            );
+        }
+    });
+
+db.sequelize.sync()
+    .then(() => ensurePostsLikesColumn())
     .then(() => ensureUsersEmailColumn())
-    .then(() => db.sequelize.sync())
+    .then(() => ensureCommentsUserNameColumn())
     .then(() => {
         app.listen(3001, () => {
             console.log('Server is running on port 3001');
