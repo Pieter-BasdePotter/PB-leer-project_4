@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Route, Routes, Link, Navigate, useNavigate } f
 import Home from './pages/Home';
 import CreatePost from './pages/CreatePost';
 import Post from './pages/Post';
+import Profile from './pages/Profile';
 import Login from './pages/Login';
 import Register from './pages/Register';
 import { AuthProvider, useAuth } from './context/AuthContext';
@@ -47,6 +48,7 @@ function AppRoutes() {
         <Route path="/" element={<ProtectedRoute><Home /></ProtectedRoute>} />
         <Route path="/createpost" element={<ProtectedRoute><CreatePost /></ProtectedRoute>} />
         <Route path="/post/:id" element={<ProtectedRoute><Post /></ProtectedRoute>} />
+        <Route path="/profile/:username" element={<ProtectedRoute><Profile /></ProtectedRoute>} />
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
     </>

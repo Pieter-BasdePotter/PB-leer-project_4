@@ -173,7 +173,58 @@ body {
   .feedPage { padding: 12px 0; gap: 8px; }
   .postDetailPage { padding: 12px 0; }
   .createPostPage { padding: 12px 0; }
+  .profilePage { padding: 12px 0; }
   .fbNavUsername { display: none; }
 }
+
+/* ================================================================
+   PROFILE PAGE
+   ================================================================ */
+.profilePage { max-width: 680px; margin: 0 auto; padding: 24px 16px; display: flex; flex-direction: column; gap: 16px; }
+
+/* Header card */
+.profileHeaderCard { background: var(--bg-card); border-radius: var(--radius-card); box-shadow: var(--shadow-card); overflow: hidden; }
+
+/* Green gradient cover strip */
+.profileCover { height: 112px; background: linear-gradient(135deg, var(--primary) 0%, #1db800 60%, #0e7a00 100%); position: relative; }
+.profileCover::after { content: ''; position: absolute; inset: 0; background: radial-gradient(ellipse at 30% 60%, rgba(255,255,255,0.12) 0%, transparent 65%); }
+
+/* Avatar + info row */
+.profileHeaderBody { display: flex; align-items: flex-end; gap: 14px; padding: 0 20px 16px; margin-top: -32px; position: relative; }
+.profileAvatarWrap { flex-shrink: 0; }
+.profileAvatar { width: 64px; height: 64px; border-radius: 50%; background: var(--primary); color: white; font-size: 26px; font-weight: 800; display: flex; align-items: center; justify-content: center; user-select: none; border: 3px solid var(--bg-card); box-shadow: 0 2px 8px rgba(0,0,0,0.18); }
+.profileHeaderInfo { flex: 1; min-width: 0; padding-bottom: 2px; }
+.profileUsername { font-size: 20px; font-weight: 800; color: var(--text-primary); line-height: 1.2; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.profileJoined { font-size: 12px; color: var(--text-secondary); margin-top: 2px; }
+
+/* Follow button area */
+.profileFollowWrap { display: flex; flex-direction: column; align-items: flex-end; gap: 6px; flex-shrink: 0; padding-bottom: 2px; }
+.profileFollowError { font-size: 12px; color: #c0392b; max-width: 180px; text-align: right; }
+.profileFollowBtn { padding: 8px 20px; border-radius: 20px; font-family: var(--font); font-size: 14px; font-weight: 700; cursor: pointer; transition: background 0.15s, color 0.15s, border-color 0.15s, transform 0.1s; white-space: nowrap; background: var(--primary); color: white; border: 2px solid var(--primary); width: auto; height: auto; }
+.profileFollowBtn:hover:not(:disabled) { background: var(--primary-hover); border-color: var(--primary-hover); transform: translateY(-1px); }
+.profileFollowBtn:active:not(:disabled) { transform: translateY(0); }
+.profileFollowBtn:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
+.profileFollowBtn--following { background: transparent; color: var(--primary); border: 2px solid var(--primary); }
+.profileFollowBtn--following:hover:not(:disabled) { background: var(--primary-light); }
+
+/* Stats row */
+.profileStatRow { display: flex; align-items: center; justify-content: center; gap: 0; padding: 12px 20px; border-top: 1px solid var(--divider); }
+.profileStatItem { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 2px; }
+.profileStatCount { font-size: 18px; font-weight: 800; color: var(--text-primary); line-height: 1; }
+.profileStatLabel { font-size: 11px; font-weight: 700; letter-spacing: 0.5px; text-transform: uppercase; color: var(--text-secondary); }
+.profileStatDivider { width: 1px; height: 32px; background: var(--divider); flex-shrink: 0; }
+
+/* Posts section */
+.profilePostsSection { display: flex; flex-direction: column; gap: 12px; }
+.profilePostsSectionTitle { font-size: 15px; font-weight: 800; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 0.6px; padding: 4px 0; }
+.profileNoPosts { background: var(--bg-card); border-radius: var(--radius-card); box-shadow: var(--shadow-card); padding: 32px 20px; text-align: center; color: var(--text-secondary); font-size: 14px; }
+
+/* Loading / error states */
+.profileLoadingState, .profileErrorState { text-align: center; padding: 48px 16px; color: var(--text-secondary); font-size: 15px; }
+.profileErrorState { color: #c0392b; }
+
+/* Author name links on post cards — used in Home and Post pages */
+.postAuthorLink { color: var(--text-primary); text-decoration: none; font-weight: 700; font-size: 14px; }
+.postAuthorLink:hover { color: var(--primary); text-decoration: underline; }
 
 

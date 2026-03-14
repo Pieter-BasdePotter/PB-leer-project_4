@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, Link } from 'react-router-dom';
 import axios from "../api/axios";
 import { useAuth } from '../context/AuthContext';
 
@@ -83,7 +83,10 @@ function Post() {
         <div className="postCardHeader">
           <div className="postAvatar">{getInitial(postObject.userName)}</div>
           <div className="postAvatarMeta">
-            <div className="postAuthorName">{postObject.userName}</div>
+            <Link
+              to={`/profile/${postObject.userName}`}
+              className="postAuthorLink"
+            >{postObject.userName}</Link>
             <div className="postTimestamp">{formatDate(postObject.createdAt)}</div>
           </div>
         </div>

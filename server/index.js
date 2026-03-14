@@ -26,6 +26,8 @@ const postsRouter = require('./routes/posts');
 app.use("/posts", authMiddleware, postsRouter);
 const commentsRouter = require('./routes/Comments');
 app.use("/comments", authMiddleware, commentsRouter);
+const profileRouter = require('./routes/profile');
+app.use("/profile", authMiddleware, profileRouter);
 
 
 // sync() without alter: all columns are already in MySQL.
@@ -85,10 +87,25 @@ const ensureCommentsUserNameColumn = () =>
         }
     });
 
+// Ensure an index on Posts.userName so profile post queries don't full-scan.
+const ensurePostsUserNameIndex = () =>
+    db.sequelize.query(
+        `SELECT INDEX_NAME FROM INFORMATION_SCHEMA.STATISTICS
+         WHERE TABLE_SCHEMA = DATABASE() AND TABLE_NAME = 'Posts' AND INDEX_NAME = 'posts_username_idx'`
+    ).then(([rows]) => {
+        if (rows.length === 0) {
+            console.log('[MIGRATE] Adding index on Posts.userName...');
+            return db.sequelize.query(
+                'ALTER TABLE `Posts` ADD INDEX `posts_username_idx` (`userName`)'
+            );
+        }
+    });
+
 db.sequelize.sync()
     .then(() => ensurePostsLikesColumn())
     .then(() => ensureUsersEmailColumn())
     .then(() => ensureCommentsUserNameColumn())
+    .then(() => ensurePostsUserNameIndex())
     .then(() => {
         app.listen(3001, () => {
             console.log('Server is running on port 3001');

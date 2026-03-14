@@ -20,7 +20,9 @@ module.exports = (sequelize, DataTypes) => {
     Users.associate = (models) => {
         Users.hasMany(models.Post, {
             onDelete: 'cascade',
-        })
+        });
+        Users.hasMany(models.Follows, { as: 'following', foreignKey: 'followerId', onDelete: 'cascade' });
+        Users.hasMany(models.Follows, { as: 'followers', foreignKey: 'followedId', onDelete: 'cascade' });
     }
     
     return Users;

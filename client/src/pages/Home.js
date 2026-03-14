@@ -1,7 +1,7 @@
 import React from 'react';
 import axios from "../api/axios";
 import { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 
 const getInitial = (name) => name ? name[0].toUpperCase() : '?';
 
@@ -43,7 +43,11 @@ function Home() {
           <div className="postCardHeader">
             <div className="postAvatar">{getInitial(post.userName)}</div>
             <div className="postAvatarMeta">
-              <div className="postAuthorName">{post.userName}</div>
+              <Link
+                to={`/profile/${post.userName}`}
+                className="postAuthorLink"
+                onClick={(e) => e.stopPropagation()}
+              >{post.userName}</Link>
               <div className="postTimestamp">{formatDate(post.createdAt)}</div>
             </div>
           </div>
